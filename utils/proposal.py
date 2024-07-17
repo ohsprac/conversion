@@ -8,6 +8,8 @@ from docx.enum.table import WD_ALIGN_VERTICAL
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 # from docx2pdf import convert
 
+from scopetoproposal.models import Image
+
 
 
 permit = '\nA permit is requred for projects of value in excess of R60,000,000 (Sixty Million Rand).\n'
@@ -150,7 +152,11 @@ def read_proposal(doc_path, output_doc_path, placeholders):
     for s in doc.sections:
         # Creating the first page legal footer:
         image_par = s.first_page_footer.add_paragraph()
-        image_par.add_run().add_picture('staticfiles/images/shield.png', width=Cm(1))
+        # fetch image from database:
+        image_instance = fetch_image_from_database('proposal_footer_image')
+        if image_instance.image:
+            # image_bytes = image_instance.image.read()
+            image_par.add_run().add_picture(image_instance.image, width=Cm(1))
         image_par.alignment = WD_ALIGN_PARAGRAPH.CENTER
         paragraph = s.first_page_footer.add_paragraph()
         for par in FOOTER_LEGAL:
@@ -310,3 +316,19 @@ def replace_placeholders(placeholders, paragraph, output_doc_path):
 
 # create_proposal("convert/utils/scope.pdf", "convert/utils/proposal.docx")
 # read_proposal('convert/utils/prop.docx', 'test.docx', placeholders)
+
+
+
+
+
+
+
+# HELPER FUNCTION:
+
+def fetch_image_from_database(image_name):
+    ...
+    try:
+        image_instance = Image.objects.get(name=image_name)
+        return image_instance
+    except Image.DoesNotExist:
+        return None

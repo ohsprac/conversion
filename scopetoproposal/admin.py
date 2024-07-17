@@ -6,7 +6,7 @@ from .models import Image, Company
 
 
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ('image',)
+    list_display = ('name', 'image')
 
 
 class CompanyAdmin(admin.ModelAdmin):
