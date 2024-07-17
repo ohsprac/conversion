@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload</title>
+</head>
+<body>
+    
+    <h1>Upload PDF to Convert to Word</h1>
+    
+    
+    <form id="uploadForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="company"></label>
+        <select name="company" id="company">
+            <option value="Comprac Gauteng (Pty) Ltd">Comprac Gauteng (Pty) Ltd</option>
+            <option value="Comprac Western Cape (Pty) Ltd">Comprac Western Cape (Pty) Ltd</option>
+            <option value="Comprac KZN (Pty) Ltd">Comprac KZN (Pty) Ltd</option>
+            <option value="Comprac Contractor Services Gauteng (Pty) Ltd">Comprac Contractor Services Gauteng (Pty) Ltd</option>
+            <option value="Comprac Special Risks (Pty) Ltd">Comprac Special Risks (Pty) Ltd</option>
+            <option value="Comsaf (Pty) Ltd">Comsaf (Pty) Ltd</option>
+            <option value="Asanele Consultants (Pty) Ltd">Asanele Consultants (Pty) Ltd</option>
+            <option value="Comprac Energy (Pty) Ltd">Comprac Energy (Pty) Ltd</option>
+        </select>
+        
+        <p>Scope: </p>
+        <input type="file" id="scopeInput" name="file" accept=".pdf">
+        
+        <p>Proposal Template: </p>
+        <input type="file" id="proposalInput" name="file" accept=".docx">
+        <button type="submit">Upload</button>
+    </form>
+
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData();
+            var scopeInput = document.getElementById('scopeInput');
+            var proposalInput = document.getElementById('proposalInput');
+            var companyInput = document.getElementById('company');
+            formData.append('scope', scopeInput.files[0]);
+            formData.append('proposal', proposalInput.files[0]);
+            formData.append('company', companyInput.value);
+
+            console.log('COMPANY: ', companyInput.value);
+
+            console.log('FORM DATA', formData);
+
+            fetch('/upload/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    return response.blob();
+                }
+                throw new Error('Network response was not ok.');
+            }).then(blob => {
+                console.log()
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = 'downloaded.docx';
+                link.click();
+            }).catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+        });
+
+
+        // Function to get CSRF token from cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+
+
+
+
+
+</body>
+</html>
