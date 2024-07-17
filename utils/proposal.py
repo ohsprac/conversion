@@ -150,7 +150,7 @@ def read_proposal(doc_path, output_doc_path, placeholders):
     for s in doc.sections:
         # Creating the first page legal footer:
         image_par = s.first_page_footer.add_paragraph()
-        image_par.add_run().add_picture('C:/Users/lorna/OneDrive/Desktop/conversion/convert/utils/shield.png', width=Cm(1))
+        image_par.add_run().add_picture('staticfiles/images/shield.png', width=Cm(1))
         image_par.alignment = WD_ALIGN_PARAGRAPH.CENTER
         paragraph = s.first_page_footer.add_paragraph()
         for par in FOOTER_LEGAL:

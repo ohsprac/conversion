@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-y@7_ajf(f9&aol1&6&j6g+#9_dp)0f-g^=+5rp0o*k+mc3gk$l
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['conversion-75zh.onrender.com'] # add render.com space here!
+ALLOWED_HOSTS = ['127.0.0.1', 'conversion-75zh.onrender.com'] # add render.com space here!
 
 
 # Application definition
