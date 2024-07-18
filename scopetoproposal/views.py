@@ -18,7 +18,7 @@ from utils.proposal import create_proposal
 # Create your views here.
 
 def healthz(request):
-    return Response(status=status.HTTP_200_OK)
+    return HttpResponse(status=status.HTTP_200_OK)
 
 
 def maintenance(request):
