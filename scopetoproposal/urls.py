@@ -10,4 +10,5 @@ urlpatterns = [
     path('upload/', FileUploadView.as_view(), name='file-upload'),
     path('', views.upload_page, name='upload-page'),
     # path('', views.maintenance, name='maintenance'),
+    path('healthz/', views.healthz, name='healthz'),
 ]
