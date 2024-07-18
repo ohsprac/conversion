@@ -13,7 +13,7 @@ from scopetoproposal.serializers import ClientSerializer, FileUploadSerializer
 from scopetoproposal.models import Client
 
 from utils.proposal import create_proposal
-from utils.temp import temp, tempo
+
 
 # Create your views here.
 
@@ -34,6 +34,7 @@ class ClientViewSet(viewsets.ModelViewSet):
 
 def upload_page(request):
     return render(request, 'scopetoproposal/upload.html')
+
 
 class FileUploadView(APIView):
     """
