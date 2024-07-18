@@ -27,11 +27,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-y@7_ajf(f9&aol1&6&j6g+#9_dp)0f-g^=+5rp0o*k+mc3gk$l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'conversion-75zh.onrender.com'] # add render.com space here!
+ALLOWED_HOSTS = ['127.0.0.1', 'conversion-75zh.onrender.com']
 
 
 # Application definition
