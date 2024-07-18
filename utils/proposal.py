@@ -1,5 +1,6 @@
 import re
 
+from datetime import date
 from io import BytesIO
 from pypdf import PdfReader
 from docx import Document
@@ -82,7 +83,7 @@ def create_proposal(pdf, word, company):
         else:
             placeholders[key] = extracted_data[d]
     placeholders['{COMPANY_NAME}'] = company
-    placeholders['{REF}'] = 'WC2215/0624'
+    # placeholders['{REF}'] = 'WC2215/0624'
     placeholders['{COMPANY_TEL_NUMBER}'] = '(011) 425 6352'
 
     print('###', word)
@@ -123,7 +124,7 @@ def extract_data(file):
             extracted_data[question] = answer
             # print(f'{question}: {answer}')
 
-        extracted_data['date'] = '15 July 2024'
+        extracted_data['date'] = date.today().strftime('%d %B %Y')
         # if int(extracted_data['project_value']) >= 60000000:
         #     extracted_data['switch'] = permit
         # else:
@@ -316,8 +317,6 @@ def replace_placeholders(placeholders, paragraph, output_doc_path):
 
 # create_proposal("convert/utils/scope.pdf", "convert/utils/proposal.docx")
 # read_proposal('convert/utils/prop.docx', 'test.docx', placeholders)
-
-
 
 
 

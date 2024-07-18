@@ -17,6 +17,9 @@ from utils.temp import temp, tempo
 
 # Create your views here.
 
+def maintenance(request):
+    return render(request, 'scopetoproposal/maintenance.html')
+
 
 class ClientViewSet(viewsets.ModelViewSet):
     """
