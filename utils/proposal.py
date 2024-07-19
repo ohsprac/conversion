@@ -78,12 +78,11 @@ def create_proposal(pdf, word, company):
             placeholders[key] = inspection_day
         elif d == 'total_fee':
             total_fee = extracted_data[d].split('.')[0].replace(',', '')
-            monthly_fee = int(total_fee) / int(extracted_data['total_months'])
+            monthly_fee = round((int(total_fee) / int(extracted_data['total_months'])), 2)
             placeholders['{MONTHLY_FEE}'] = str(monthly_fee)
         else:
             placeholders[key] = extracted_data[d]
     placeholders['{COMPANY_NAME}'] = company
-    # placeholders['{REF}'] = 'WC2215/0624'
     placeholders['{COMPANY_TEL_NUMBER}'] = '(011) 425 6352'
 
     print('###', word)
@@ -113,24 +112,16 @@ def extract_data(file):
     try:
         extracted_data = {}
         scope_reader = PdfReader(file)
-        scope_number_of_pages = len(scope_reader.pages)
-        scope_page = scope_reader.pages[0]
-        scope_text = scope_page.extract_text()
         scope_fields = scope_reader.get_fields()
 
         for field in scope_fields:
-            question = scope_fields[field]['/T']
-            answer = scope_fields[field]['/V']
-            extracted_data[question] = answer
-            # print(f'{question}: {answer}')
+            if scope_fields[field].field_type == '/Tx':
+                question = scope_fields[field]['/T']
+                answer = scope_fields[field]['/V']
+                extracted_data[question] = answer
+                # print(f'{question}: {answer}')
 
         extracted_data['date'] = date.today().strftime('%d %B %Y')
-        # if int(extracted_data['project_value']) >= 60000000:
-        #     extracted_data['switch'] = permit
-        # else:
-        #     extracted_data['switch'] = ''
-        # if extracted_data['inspection_day'] != '':
-        #     inspection_day = f'Inspections will be conducted on a {extracted_data['inspection_day']}.'
 
         return extracted_data
 

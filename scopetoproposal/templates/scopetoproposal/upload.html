@@ -30,6 +30,8 @@
         <button type="submit">Upload</button>
     </form>
 
+    <p id="status"></p>
+
 
     <script>
         document.getElementById('uploadForm').addEventListener('submit', function(event) {
@@ -41,6 +43,7 @@
             formData.append('scope', scopeInput.files[0]);
             formData.append('proposal', proposalInput.files[0]);
             formData.append('company', companyInput.value);
+            var status_par = document.getElementById('status');
 
             console.log('COMPANY: ', companyInput.value);
 
@@ -56,15 +59,24 @@
                 if (response.ok) {
                     return response.blob();
                 }
-                throw new Error('Network response was not ok.');
+                else if (response.status == 500) {
+                    throw new Error(`Failure! ${response.status} ${response.statusText} | PROPOSAL OUTPUT ERROR`);
+                }
+                else if (response.status == 406) {
+                    throw new Error(`Failure! ${response.status} ${response.statusText} | DOCUMENT UPLOAD ERROR`);
+                }
             }).then(blob => {
                 console.log()
                 var link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
                 link.download = 'downloaded.docx';
                 link.click();
+                status_par.innerHTML = 'Success!';
+                status_par.style.color = 'green';
             }).catch(error => {
                 console.error('There has been a problem with your fetch operation:', error);
+                status_par.innerHTML = error;
+                status_par.style.color = 'red';
             });
         });
 
